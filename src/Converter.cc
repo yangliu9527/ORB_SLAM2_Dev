@@ -174,4 +174,14 @@ namespace ORB_SLAM2
         return M;
     }
 
+    g2o::SE3Quat Converter::toSE3Quat(const Sophus::SE3d &T)
+    {
+        return g2o::SE3Quat(T.rotationMatrix(), T.translation());
+    }
+
+    cv::Mat Converter::toCvMat(const Sophus::SE3d &T)
+    {
+        return toCvMat(toSE3Quat(T));
+    }
+
 } // namespace ORB_SLAM

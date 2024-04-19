@@ -29,11 +29,11 @@
 #include "Map.h"
 #include "Initializer.h"
 #include "Optimizer.h"
+#include "OptimizerCeres.h"
 #include "PnPsolver.h"
 #include <unistd.h>
 #include <iostream>
 #include <mutex>
-
 
 using namespace std;
 
@@ -143,10 +143,7 @@ namespace ORB_SLAM2
             else
                 mDepthMapFactor = 1.0f / mDepthMapFactor;
         }
-
-    
     }
-
 
     void Tracking::SetLocalMapper(LocalMapping *pLocalMapper)
     {
@@ -412,7 +409,6 @@ namespace ORB_SLAM2
                 {
                     bOK = TrackLocalMap();
                 }
-
             }
             else
             {
@@ -527,7 +523,6 @@ namespace ORB_SLAM2
         return bStepByStep;
     }
 
-    
     void Tracking::StereoInitialization()
     {
         if (mCurrentFrame.N > 500)
@@ -792,7 +787,16 @@ namespace ORB_SLAM2
         mCurrentFrame.mvpMapPoints = vpMapPointMatches;
         mCurrentFrame.SetPose(mLastFrame.mTcw);
 
+        
+        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+        //OptimizerCeres::PoseOptimization(&mCurrentFrame);
+        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
         Optimizer::PoseOptimization(&mCurrentFrame);
+        std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
+        double ceres_time = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1).count();
+        double g2o_time = std::chrono::duration_cast<std::chrono::duration<double>>(t3 - t2).count();
+        cout <<"Track ReferenceKF, g2o cost "<<g2o_time<<"s, cere cost "<<ceres_time<<"s"<<endl;
+        
 
         // Discard outliers
         int nmatchesMap = 0;
@@ -915,7 +919,14 @@ namespace ORB_SLAM2
             return false;
 
         // Optimize frame pose with all matches
+        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+        OptimizerCeres::PoseOptimization(&mCurrentFrame);
+        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
         Optimizer::PoseOptimization(&mCurrentFrame);
+        std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
+        double ceres_time = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1).count();
+        double g2o_time = std::chrono::duration_cast<std::chrono::duration<double>>(t3 - t2).count();
+        cout <<"Track with Motion Model, g2o cost "<<g2o_time<<"s, cere cost "<<ceres_time<<"s"<<endl;
 
         // Discard outliers
         int nmatchesMap = 0;
@@ -957,7 +968,15 @@ namespace ORB_SLAM2
         SearchLocalPoints();
 
         // Optimize Pose
+        // Optimizer::PoseOptimization(&mCurrentFrame);
+        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+        //OptimizerCeres::PoseOptimization(&mCurrentFrame);
+        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
         Optimizer::PoseOptimization(&mCurrentFrame);
+        std::chrono::steady_clock::time_point t3 = std::chrono::steady_clock::now();
+        double ceres_time = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1).count();
+        double g2o_time = std::chrono::duration_cast<std::chrono::duration<double>>(t3 - t2).count();
+        cout <<"Track LocalMap, g2o cost "<<g2o_time<<"s, cere cost "<<ceres_time<<"s"<<endl;
         mnMatchesInliers = 0;
 
         // Update MapPoints Statistics

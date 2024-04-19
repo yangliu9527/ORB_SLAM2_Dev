@@ -38,6 +38,8 @@ endif()
 
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
+set(Ceres_DIR "/home/zhiyu/Library/ceres-solver/build/lib/cmake/Ceres")
+find_package(Ceres REQUIRED)
 
 
 include_directories(
@@ -46,6 +48,7 @@ ${PROJECT_SOURCE_DIR}/include
 ${EIGEN3_INCLUDE_DIR}
 ${Pangolin_INCLUDE_DIRS}
 ${PROJECT_SOURCE_DIR}/Thirdparty/Sophus
+${CERES_INCLUDE_DIRS}
 )
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
@@ -70,6 +73,8 @@ src/KeyFrameDatabase.cc
 src/Sim3Solver.cc
 src/Initializer.cc
 src/Viewer.cc
+src/OptimizerCeres.cc
+src/CeresFactors.cc
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -78,6 +83,7 @@ ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
 ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
 ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+${CERES_LIBRARIES}
 )
 
 # Build examples

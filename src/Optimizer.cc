@@ -253,6 +253,7 @@ int Optimizer::PoseOptimization(Frame *pFrame)
     // Set Frame vertex
     g2o::VertexSE3Expmap * vSE3 = new g2o::VertexSE3Expmap();
     vSE3->setEstimate(Converter::toSE3Quat(pFrame->mTcw));
+    //vSE3->setEstimate(Converter::toSE3Quat(pFrame->GetPoseSophus().cast<double>()));
     vSE3->setId(0);
     vSE3->setFixed(false);
     optimizer.addVertex(vSE3);
@@ -375,6 +376,7 @@ int Optimizer::PoseOptimization(Frame *pFrame)
     {
 
         vSE3->setEstimate(Converter::toSE3Quat(pFrame->mTcw));
+        //vSE3->setEstimate(Converter::toSE3Quat(pFrame->GetPoseSophus().cast<double>()));
         optimizer.initializeOptimization(0);
         optimizer.optimize(its[it]);
 

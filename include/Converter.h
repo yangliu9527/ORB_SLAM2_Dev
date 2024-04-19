@@ -55,9 +55,11 @@ public:
 
 
     //newly added
+    static cv::Mat toCvMat(const Sophus::SE3d &T);
     static Eigen::Vector3f toVector3f(const cv::Mat &cvVector);
     static Eigen::Matrix<float, 3, 3> toMatrix3f(const cv::Mat &cvMat3);
     static Sophus::SE3<float> toSophus(const cv::Mat &T);
+    static g2o::SE3Quat toSE3Quat(const Sophus::SE3d &T);
 };
 
 }// namespace ORB_SLAM

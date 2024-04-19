@@ -8,10 +8,22 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/Examples/Stereo/stereo_kitti",
+
+            //Mono Euroc
+            // "program": "${workspaceFolder}/Examples/Monocular/mono_euroc",
+            // "args": ["Vocabulary/ORBvoc.txt",
+            //   "${workspaceFolder}/Examples/Monocular/EuRoC.yaml" ,
+            //   "/home/zhiyu/DataSet/EuRoC/MH01/mav0/cam0/data",
+            // "${workspaceFolder}/Examples/Monocular/EuRoC_TimeStamps/MH01.txt"],
+
+            "program": "${workspaceFolder}/Examples/Stereo/stereo_euroc",
             "args": ["Vocabulary/ORBvoc.txt",
-              "/home/zhiyu/DataSet/KITTI-Tracking/0003/*.yaml" ,
-              "/home/zhiyu/DataSet/KITTI-Tracking/0003/"],
+              "${workspaceFolder}/Examples/Stereo/EuRoC.yaml" ,
+              "/home/zhiyu/DataSet/EuRoC/MH01/mav0/cam0/data",
+              "/home/zhiyu/DataSet/EuRoC/MH01/mav0/cam1/data",
+            "${workspaceFolder}/Examples/Stereo/EuRoC_TimeStamps/MH01.txt"],
+
+
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

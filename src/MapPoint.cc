@@ -85,6 +85,7 @@ cv::Mat MapPoint::GetWorldPos()
 
 Eigen::Vector3f MapPoint::GetWorldPosEigen()
 {
+    unique_lock<mutex> lock(mMutexPos);
     return Converter::toVector3f(mWorldPos);
 }
 
