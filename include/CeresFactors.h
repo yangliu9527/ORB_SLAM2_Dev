@@ -27,7 +27,7 @@ class MonoOnlyPoseFactor : public ceres::SizedCostFunction<2,7>
     double cy;
 };
 
-class StereoOnlyPoseFactor : public ceres::SizedCostFunction<2,7>
+class StereoOnlyPoseFactor : public ceres::SizedCostFunction<3,7>
 {
   public:
     StereoOnlyPoseFactor(const Eigen::Vector3d &Pw_, const Eigen::Vector3d &obs_, const Eigen::Matrix3d &sqrt_info_, const double &b_, const double &fx_, const double &fy_,const double &cx_,const double &cy_);

@@ -1,7 +1,11 @@
 **Modification:**
 
-* 2024.4.21: I wonder the difference of efficiency of different back-end libraries. So I add optimizer codes using ceres-solver, where the SE3 parameters are represented via ceres::Manifold instead of ceres:LocalParameterization and only the monocular optimization for only camera poses have been tested. There is still a bug with stereo mode. 
-* 2023.11.6: Add Eigen and Sophus APIs to original functions for convenience of fusing other codes based on Eigen and Sophus.
+* **2024.4.21**: I wonder the difference of efficiency of different back-end libraries. So I add optimizer codes using ceres-solver, where the SE3 parameters are represented via ceres::Manifold instead of old ceres::LocalParameterization and only the optimization for only camera poses (Optimizer::PoseOptimization) have been tested.  The results demonstrated that, at least for pose estimation, it seems that the efficiency of ceres is not obviously better than g2o as reported in [1].
+* **2023.11.6**: Add Eigen and Sophus APIs to original functions for convenience of fusing other codes based on Eigen and Sophus.
+
+
+
+[1] Jurić A, Kendeš F, Marković I, et al. A comparison of graph optimization approaches for pose estimation in SLAM[C]//2021 44th International Convention on Information, Communication and Electronic Technology (MIPRO). IEEE, 2021: 1113-1118.
 
  
 

@@ -314,7 +314,7 @@ namespace ORB_SLAM2
             }
         }
 
-        //pFrame->SetPose(Converter::toCvMat(Tcw));
+        pFrame->SetPose(Converter::toCvMat(Tcw));
 
         return inliers;
     }
